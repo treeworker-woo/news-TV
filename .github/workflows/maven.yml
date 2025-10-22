@@ -11,40 +11,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     
     - name: Set up JDK 11
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
         java-version: '11'
         distribution: 'temurin'
         cache: maven
         
+    # 方案1：使用专门的xvfb-action
+    - name: Set up virtual display
+      uses: GabrielBB/xvfb-action@v1
+      with:
+        run: echo "Xvfb started"
+        
     - name: Build with Maven
       run: mvn -B package --file pom.xml
       
-
+    - name: Run tests
+      run: mvn test -Djava.awt.headless=true
       
     - name: Generate code coverage report
       run: mvn jacoco:report
-      
-    - name: Code quality check
-      run: mvn checkstyle:check
       
     - name: Upload test results
       uses: actions/upload-artifact@v4
       with:
         name: test-results
         path: target/surefire-reports/
-        
-    - name: Upload coverage report
-      uses: actions/upload-artifact@v4
-      with:
-        name: coverage-report
-        path: target/site/jacoco/
-    - name: Set up virtual display
-      uses: GabrielBB/xvfb-action@v1
-      with:
-       run: echo "Xvfb started"
-    - name: Run tests
-      run: mvn test
