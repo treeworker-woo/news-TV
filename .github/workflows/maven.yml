@@ -23,8 +23,7 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
       
-    - name: Run tests
-      run: mvn test
+
       
     - name: Generate code coverage report
       run: mvn jacoco:report
@@ -49,3 +48,5 @@ jobs:
        sudo apt-get install -y xvfb
        Xvfb :99 -screen 0 1024x768x24 &
        echo "DISPLAY=:99" >> $GITHUB_ENV
+    - name: Run tests
+      run: mvn test
