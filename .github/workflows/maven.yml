@@ -29,8 +29,8 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
       
-    - name: Run tests (skip GUI tests)
-      run: mvn test -Dtest="!HelpManagerTest"
+    - name: Run tests
+      run: mvn test
       
     - name: Generate code coverage report
       run: mvn jacoco:report
