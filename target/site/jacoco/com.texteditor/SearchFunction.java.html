@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SearchFunction.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">java-text-editor</a> &gt; <a href="index.source.html" class="el_package">com.texteditor</a> &gt; <span class="el_source">SearchFunction.java</span></div><h1>SearchFunction.java</h1><pre class="source lang-java linenums">package com.texteditor;
+
+import javax.swing.*;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
+import java.awt.*;
+
+/**
+ * Handles text search functionality within the text area
+ */
+public class SearchFunction {
+    private JTextArea textArea;
+    private Highlighter highlighter;
+    private Highlighter.HighlightPainter painter;
+
+<span class="fc" id="L16">    public SearchFunction(JTextArea textArea) {</span>
+<span class="fc" id="L17">        this.textArea = textArea;</span>
+<span class="fc" id="L18">        this.highlighter = textArea.getHighlighter();</span>
+<span class="fc" id="L19">        this.painter = new DefaultHighlighter.DefaultHighlightPainter(Color.YELLOW);</span>
+<span class="fc" id="L20">    }</span>
+
+    /**
+     * Searches for text in the text area and highlights matches
+     * @param searchTerm text to search for
+     * @return true if text found, false otherwise
+     */
+    public boolean search(String searchTerm) {
+        // Clear previous highlights
+<span class="fc" id="L29">        highlighter.removeAllHighlights();</span>
+
+<span class="fc" id="L31">        String text = textArea.getText();</span>
+<span class="fc" id="L32">        String searchText = searchTerm.toLowerCase();</span>
+<span class="fc" id="L33">        String content = text.toLowerCase();</span>
+
+<span class="fc" id="L35">        int index = content.indexOf(searchText);</span>
+<span class="fc" id="L36">        boolean found = false;</span>
+
+<span class="fc bfc" id="L38" title="All 2 branches covered.">        while (index &gt;= 0) {</span>
+            try {
+<span class="fc" id="L40">                highlighter.addHighlight(index, index + searchText.length(), painter);</span>
+<span class="fc" id="L41">                found = true;</span>
+
+                // Move caret to first occurrence
+<span class="pc bpc" id="L44" title="1 of 2 branches missed.">                if (index == content.indexOf(searchText)) {</span>
+<span class="fc" id="L45">                    textArea.setCaretPosition(index + searchText.length());</span>
+<span class="fc" id="L46">                    textArea.moveCaretPosition(index);</span>
+                }
+
+<span class="nc" id="L49">            } catch (Exception e) {</span>
+                // Handle highlighting errors gracefully
+<span class="nc" id="L51">                System.err.println(&quot;Error highlighting text: &quot; + e.getMessage());</span>
+<span class="fc" id="L52">            }</span>
+
+<span class="fc" id="L54">            index = content.indexOf(searchText, index + 1);</span>
+        }
+
+<span class="fc" id="L57">        return found;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

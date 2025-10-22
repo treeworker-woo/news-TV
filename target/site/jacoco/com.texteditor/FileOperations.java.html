@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FileOperations.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">java-text-editor</a> &gt; <a href="index.source.html" class="el_package">com.texteditor</a> &gt; <span class="el_source">FileOperations.java</span></div><h1>FileOperations.java</h1><pre class="source lang-java linenums">package com.texteditor;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+/**
+ * Handles file operations including opening and saving files
+ * with proper exception handling
+ */
+<span class="fc" id="L12">public class FileOperations {</span>
+
+    /**
+     * Opens a file and returns its content as String
+     * @param filePath path to the file to open
+     * @return file content as String
+     * @throws IOException if file cannot be read
+     */
+    public String openFile(String filePath) throws IOException {
+<span class="pc bpc" id="L21" title="1 of 4 branches missed.">        if (filePath == null || filePath.trim().isEmpty()) {</span>
+<span class="fc" id="L22">            throw new IllegalArgumentException(&quot;File path cannot be null or empty&quot;);</span>
+        }
+
+<span class="fc" id="L25">        Path path = Paths.get(filePath);</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if (!Files.exists(path)) {</span>
+<span class="fc" id="L27">            throw new IOException(&quot;File does not exist: &quot; + filePath);</span>
+        }
+
+<span class="pc bpc" id="L30" title="1 of 2 branches missed.">        if (!Files.isReadable(path)) {</span>
+<span class="nc" id="L31">            throw new IOException(&quot;File is not readable: &quot; + filePath);</span>
+        }
+
+<span class="fc" id="L34">        return new String(Files.readAllBytes(path));</span>
+    }
+
+    /**
+     * Saves content to specified file path
+     * @param filePath path where to save the file
+     * @param content content to save
+     * @throws IOException if file cannot be written
+     */
+    public void saveFile(String filePath, String content) throws IOException {
+<span class="pc bpc" id="L44" title="2 of 4 branches missed.">        if (filePath == null || filePath.trim().isEmpty()) {</span>
+<span class="nc" id="L45">            throw new IllegalArgumentException(&quot;File path cannot be null or empty&quot;);</span>
+        }
+
+<span class="fc bfc" id="L48" title="All 2 branches covered.">        if (content == null) {</span>
+<span class="fc" id="L49">            content = &quot;&quot;;</span>
+        }
+
+<span class="fc" id="L52">        Path path = Paths.get(filePath);</span>
+<span class="fc" id="L53">        Path parentDir = path.getParent();</span>
+
+<span class="pc bpc" id="L55" title="2 of 4 branches missed.">        if (parentDir != null &amp;&amp; !Files.exists(parentDir)) {</span>
+<span class="nc" id="L56">            Files.createDirectories(parentDir);</span>
+        }
+
+<span class="fc" id="L59">        Files.write(path, content.getBytes());</span>
+<span class="fc" id="L60">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

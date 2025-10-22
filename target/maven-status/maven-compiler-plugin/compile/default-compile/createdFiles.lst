@@ -1,0 +1,5 @@
+com\texteditor\ConfigManager.class
+com\texteditor\SearchFunction.class
+com\texteditor\FileOperations.class
+com\texteditor\Main.class
+com\texteditor\TextEditor.class

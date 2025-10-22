@@ -1,0 +1,16 @@
+editor:
+  font:
+    family: "Monospaced"
+    size: 14
+    color: "#2D3748"
+  window:
+    width: 1000
+    height: 700
+  features:
+    auto_save: false
+    word_wrap: true
+    enable_shortcuts: true
+  default_file_extension: ".txt"
+  help:
+    show_welcome: true
+    enable_tooltips: true

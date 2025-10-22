@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  text-editor:
+    build: .
+    container_name: java-text-editor
+    volumes:
+      - ./config:/app/config
+      - ./documents:/home/appuser/documents
+    environment:
+      - DISPLAY=host.docker.internal:0
+    network_mode: host
+    stdin_open: true
+    tty: true
